@@ -1,6 +1,6 @@
-# Generic Decoding Demo/Python
+# fMRI-KD
 
-This is Python code for Generic Decoding Demo.
+This repository is python implementation code of fMRI-KD and depends on the repository : Generic Decoding Demo/Python (https://github.com/KamitaniLab/GenericObjectDecoding/tree/master/code/python)
 
 ## Requirements
 
@@ -18,7 +18,7 @@ The following packages are required.
 
 ## Data organization
 
-All data should be placed in `python/data`.
+All data should be placed in `data/` before training.
 Data can be obrained from [figshare](https://figshare.com/articles/Generic_Object_Decoding/7387130).
 The data directory should have the following files:
 
@@ -45,24 +45,8 @@ Download links:
 
 ## Script files
 
-- **analysis_FeaturePrediction.py**: Run image feature prediction for each subject, ROI, and layer (feature).
-- **analysis_FeaturePredictionMergeResults.py**: Merge outputs of analysis_FeaturePrediction.py and calculate feature prediction accuracy.
-- **analysis_CategoryIdentification.py**: Run category identification.
-- **createfigure.py**: Create result figures.
-- **god_config.py**: Define analysis parameters. This file is called in analysis_* scripts.
+- **train_teacher.py**: It trains 1-D resnet teacher using fMRI data. You should run this code first to generate teacher model. The save path is models/model1d_(subject_num)_weight_best.pt
+- **train_both.py**: It trains 2-D resnet student using distillation from 1-D resnet teacher. Corresponding image dataset is required to run this code. (Warning!!)Due to copyright issues, the dataset is not open and only available by requesting at [https://forms.gle/ujvA34948Xg49jdn9](https://docs.google.com/forms/d/e/1FAIpQLSfuAF-tr4ZUBx2LvxavAjjEkqqUOj0VpqpeJNCe-IcdlqJekg/viewform) by the authors of [GenericObjectDecoding](https://github.com/KamitaniLab/GenericObjectDecoding).
+- **train_both_feature_distill.py**: It trains 2-D resnet student using feature distillation from 1-D resnet teacher. Corresponding image dataset is required to run this code. (Warning!!)Due to copyright issues, the dataset is not open and only available by requesting at [https://forms.gle/ujvA34948Xg49jdn9](https://docs.google.com/forms/d/e/1FAIpQLSfuAF-tr4ZUBx2LvxavAjjEkqqUOj0VpqpeJNCe-IcdlqJekg/viewform) by the authors of [GenericObjectDecoding](https://github.com/KamitaniLab/GenericObjectDecoding).
 
-## Analysis
-
-Run the following scripts.
-
-    $ python analysis_FeaturePrediction.py
-    $ python analysis_FeaturePredictionMergeResults.py
-    $ python analysis_CategoryIdentification.py
-
-The all results will be saved in `results` directory.
-
-To visualize the results, run the following script.
-
-    $ python createfigure.py
-
-`createfigure.py` will create two figures: one shows the results of image feature and category-averaged feature prediction, and the other displays the results of category identification. The figures will be saved in `results` directory in PDF format (`createfigure_featureprediction.pdf` and `createfigure_categoryidentification.pdf`).
+For all train code, you can adjust config to select the target subjects, RoIs, etc.
