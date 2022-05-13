@@ -1054,11 +1054,6 @@ def main(brain_teacher_target=None):
     #print(brain_teacher.shape)#(1050, 150)
     #print(brain_teacher)
 
-    noise_teacher = np.random.rand(1050, 150)
-    noise_teacher = softmax(noise_teacher/0.01).astype(np.float32)
-    print(np.max(noise_teacher,axis=1))
-    print(noise_teacher.dtype)
-
     # Check number of parameters your model
     pytorch_total_params = sum(p.numel() for p in model.parameters())
     print(f"Number of parameters: {pytorch_total_params}")
@@ -1070,7 +1065,6 @@ def main(brain_teacher_target=None):
       model = load_ckp(model, optimizer)
     
     print('==> Load data..')
-
 
     last_top1_acc = 0
     acc1_valid = 0
@@ -1110,23 +1104,13 @@ def main(brain_teacher_target=None):
         x = dat.select(rois[roi])           # Brain data
         datatype = dat.select('DataType')   # Data type
         labels = dat.select('stimulus_id')  # Image labels in brain data
-        print("Labels:", labels) 
-        print("Labels:", labels.shape) #(3450,1)
 
         y = data_feature.select(feat)             # Image features
         y_label = data_feature.select('ImageID')  # Image labels
-        print("ImID:", y_label)
-        print("ImID:", y_label.shape) #(16622,1)
 
         y = y[:, :1000]
 
-        print(x)
-        print(x.shape) #(3450,860)
         feature_length = int(x.shape[-1])
-        print(y)
-        print(y.shape) #(16622,1000)
-        print(y_label)
-        print(y_label.shape) #(16622,1)
 
         train_indexes = []
         test_indexes = []
@@ -1136,15 +1120,7 @@ def main(brain_teacher_target=None):
             else:
                 train_indexes.append(i)
 
-        print("train_label: ", train_indexes)
-        print("train_label: ", len(train_indexes))#1050
-
-        print("test_label: ", test_indexes)
-        print("test_label: ", len(test_indexes))#150
-
         y_label_not_none = np.isnan(y_label)        
-        print(y_label[y_label_not_none==False])
-        print(y_label[y_label_not_none==False].shape) #(1250,1)
 
         x = x[:1200, :]
 
@@ -1157,12 +1133,6 @@ def main(brain_teacher_target=None):
         y_label_train = y_label[train_indexes, :]
         y_label_test = y_label[test_indexes, :]
 
-        print("x_train: ", x_train.shape)#1050,740
-        print("x_test: ", x_test.shape)#150,740
-        print("y_train: ", y_train.shape)#1050,
-        print("y_test: ", y_test.shape)#150,
-        print("y_label_train: ", y_label_train.shape)#1050,1
-        print("y_label_test: ", y_label_test.shape)#150,1
 
         train_transform = transforms.Compose([
             transforms.RandomCrop(448),
@@ -1179,9 +1149,6 @@ def main(brain_teacher_target=None):
         train_imagenet_dataset = CustomImageNetDataset(csv_file='/root/wheemi/GenericObjectDecoding/data/stimulus_ImageNetTraining.tsv', root_dir='/root/wheemi/GenericObjectDecoding/code/python/images/', fmri_data=x_train, train=True, transform=train_transform)
         test_imagenet_dataset = CustomImageNetDataset(csv_file='/root/wheemi/GenericObjectDecoding/data/stimulus_ImageNetTraining.tsv', root_dir='/root/wheemi/GenericObjectDecoding/code/python/images/', fmri_data=x_test, train=False, transform=train_transform)
 
-        #dataset_lengths = [int(len(imagenet_dataset)*0.9), int(len(imagenet_dataset)*0.1)]
-        #subsetA, subsetB = random_split(imagenet_dataset, dataset_lengths)
-
         train_loader = DataLoader(train_imagenet_dataset,
                                 batch_size=BATCHSIZE, shuffle=True,
                                 num_workers=4, pin_memory=True)
@@ -1191,8 +1158,6 @@ def main(brain_teacher_target=None):
                                 num_workers=1, pin_memory=True)
       
         feature_length_fit = math.ceil(feature_length/16.)
-        print(feature_length_fit)
-        #adap_layers = nn.Linear(256 * feature_length_fit, 256 * 14*14, bias=False).cuda()
         adap_layers = nn.Conv1d(feature_length_fit, 14*14, kernel_size=1, bias=False).cuda()
 
         for epoch in range(start_epoch, EPOCHS):
@@ -1374,22 +1339,3 @@ if __name__ == "__main__":
     bests = main(brain_teacher_target=None)#'soft_label.npy')
     result_list.append(bests)
     print(result_list)
-
-    #best_acc1 = main(brain_teacher_target=None)
-    '''    
-    brain_teacher_target_dir=SAVEPATH+'soft_labels/'
-    brain_teacher_targets=os.listdir(brain_teacher_target_dir)
-    print(brain_teacher_targets)
-    result_dict = {}
-    for file in brain_teacher_targets:
-        brain_teacher_target=brain_teacher_target_dir+file
-        best_acc1 = main(brain_teacher_target=brain_teacher_target)
-
-
-    for file in brain_teacher_targets:
-        brain_teacher_target=brain_teacher_target_dir+file
-        best_acc1 = main(brain_teacher_target=brain_teacher_target)
-        result_dict[brain_teacher_target] = best_acc1
-    for key, value in result_dict.items():
-        print(key, value)
-    '''
