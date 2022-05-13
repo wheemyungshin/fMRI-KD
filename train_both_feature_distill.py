@@ -1045,9 +1045,7 @@ def main(brain_teacher_target=None):
     ###########################################################
 
     if brain_teacher_target is not None:
-        print(brain_teacher_target)
         brain_teacher = np.load(brain_teacher_target)
-        print(brain_teacher.dtype)
     else:
         brain_teacher = None
     
@@ -1056,8 +1054,6 @@ def main(brain_teacher_target=None):
 
     noise_teacher = np.random.rand(1050, 150)
     noise_teacher = softmax(noise_teacher/0.01).astype(np.float32)
-    print(np.max(noise_teacher,axis=1))
-    print(noise_teacher.dtype)
 
     # Check number of parameters your model
     pytorch_total_params = sum(p.numel() for p in model.parameters())
@@ -1114,23 +1110,18 @@ def main(brain_teacher_target=None):
         x = dat.select(rois[roi])           # Brain data
         datatype = dat.select('DataType')   # Data type
         labels = dat.select('stimulus_id')  # Image labels in brain data
-        print("Labels:", labels) 
-        print("Labels:", labels.shape) #(3450,1)
+        #print("Labels:", labels.shape) #(3450,1)
 
         y = data_feature.select(feat)             # Image features
         y_label = data_feature.select('ImageID')  # Image labels
-        print("ImID:", y_label)
-        print("ImID:", y_label.shape) #(16622,1)
+        #print("ImID:", y_label.shape) #(16622,1)
 
         y = y[:, :1000]
 
-        print(x)
-        print(x.shape) #(3450,860)
+        #print(x.shape) #(3450,860)
         feature_length = int(x.shape[-1])
-        print(y)
-        print(y.shape) #(16622,1000)
-        print(y_label)
-        print(y_label.shape) #(16622,1)
+        #print(y.shape) #(16622,1000)
+        #print(y_label.shape) #(16622,1)
 
         train_indexes = []
         test_indexes = []
@@ -1140,15 +1131,12 @@ def main(brain_teacher_target=None):
             else:
                 train_indexes.append(i)
 
-        print("train_label: ", train_indexes)
-        print("train_label: ", len(train_indexes))#1050
+        #print("train_label: ", len(train_indexes))#1050
 
-        print("test_label: ", test_indexes)
-        print("test_label: ", len(test_indexes))#150
+        #print("test_label: ", len(test_indexes))#150
 
         y_label_not_none = np.isnan(y_label)        
-        print(y_label[y_label_not_none==False])
-        print(y_label[y_label_not_none==False].shape) #(1250,1)
+        #print(y_label[y_label_not_none==False].shape) #(1250,1)
 
         x = x[:1200, :]
 
@@ -1161,12 +1149,12 @@ def main(brain_teacher_target=None):
         y_label_train = y_label[train_indexes, :]
         y_label_test = y_label[test_indexes, :]
 
-        print("x_train: ", x_train.shape)#1050,740
-        print("x_test: ", x_test.shape)#150,740
-        print("y_train: ", y_train.shape)#1050,
-        print("y_test: ", y_test.shape)#150,
-        print("y_label_train: ", y_label_train.shape)#1050,1
-        print("y_label_test: ", y_label_test.shape)#150,1
+        #print("x_train: ", x_train.shape)#1050,740
+        #print("x_test: ", x_test.shape)#150,740
+        #print("y_train: ", y_train.shape)#1050,
+        #print("y_test: ", y_test.shape)#150,
+        #print("y_label_train: ", y_label_train.shape)#1050,1
+        #print("y_label_test: ", y_label_test.shape)#150,1
 
         train_transform = transforms.Compose([
             transforms.RandomCrop(448),
