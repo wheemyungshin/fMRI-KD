@@ -41,11 +41,11 @@ class config():
     self.analysis_name = 'GenericObjectDecoding'
 
     # Data settings
-    self.subjects = {#'Subject1' : ['data/Subject1.h5'],
-                'Subject2' : ['data/Subject2.h5'],
-                'Subject3' : ['data/Subject3.h5'],
-                'Subject4' : ['data/Subject4.h5'],
-                'Subject5' : ['data/Subject5.h5']}
+    self.subjects = {'Subject1' : ['data/Subject1.h5']}
+                #'Subject2' : ['data/Subject2.h5'],
+                #'Subject3' : ['data/Subject3.h5'],
+                #'Subject4' : ['data/Subject4.h5'],
+                #'Subject5' : ['data/Subject5.h5']}
 
     self.rois = {#'VC' : 'ROI_VC = 1',
             #'LVC' : 'ROI_LVC = 1',
@@ -80,7 +80,7 @@ class config():
     selfroi_labels = ['V1', 'V2', 'V3', 'V4', 'LOC', 'FFA', 'PPA', 'LVC', 'HVC', 'VC']
 
 
-SAVEPATH = '/root/wheemi/GenericObjectDecoding/code/python/models/'
+SAVEPATH = 'models/'
 WEIGHTDECAY = 5e-4
 MOMENTUM = 0.8
 BATCHSIZE = 64#128
@@ -1146,8 +1146,8 @@ def main(brain_teacher_target=None):
             transforms.ToTensor()
         ])
 
-        train_imagenet_dataset = CustomImageNetDataset(csv_file='/root/wheemi/GenericObjectDecoding/data/stimulus_ImageNetTraining.tsv', root_dir='/root/wheemi/GenericObjectDecoding/code/python/images/', fmri_data=x_train, train=True, transform=train_transform)
-        test_imagenet_dataset = CustomImageNetDataset(csv_file='/root/wheemi/GenericObjectDecoding/data/stimulus_ImageNetTraining.tsv', root_dir='/root/wheemi/GenericObjectDecoding/code/python/images/', fmri_data=x_test, train=False, transform=train_transform)
+        train_imagenet_dataset = CustomImageNetDataset(csv_file='stimulus_ImageNetTraining.tsv', root_dir='images/', fmri_data=x_train, train=True, transform=train_transform)
+        test_imagenet_dataset = CustomImageNetDataset(csv_file='stimulus_ImageNetTraining.tsv', root_dir='images/', fmri_data=x_test, train=False, transform=train_transform)
 
         train_loader = DataLoader(train_imagenet_dataset,
                                 batch_size=BATCHSIZE, shuffle=True,

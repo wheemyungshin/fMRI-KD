@@ -78,7 +78,7 @@ class config():
     selfroi_labels = ['V1', 'V2', 'V3', 'V4', 'LOC', 'FFA', 'PPA', 'LVC', 'HVC', 'VC']
 
 
-SAVEPATH = '/root/wheemi/GenericObjectDecoding/code/python/models/'
+SAVEPATH = 'models/'
 WEIGHTDECAY = 5e-4
 MOMENTUM = 0.8
 BATCHSIZE = 64#128
@@ -1110,7 +1110,7 @@ def main(brain_teacher_target=None):
         x = dat.select(rois[roi])           # Brain data
         datatype = dat.select('DataType')   # Data type
         labels = dat.select('stimulus_id')  # Image labels in brain data
-        
+
         y = data_feature.select(feat)             # Image features
         y_label = data_feature.select('ImageID')  # Image labels
 
@@ -1148,8 +1148,8 @@ def main(brain_teacher_target=None):
             transforms.ToTensor()
         ])
 
-        train_imagenet_dataset = CustomImageNetDataset(csv_file='/root/wheemi/GenericObjectDecoding/data/stimulus_ImageNetTraining.tsv', root_dir='/root/wheemi/GenericObjectDecoding/code/python/images/', fmri_data=x_train, train=True, transform=train_transform)
-        test_imagenet_dataset = CustomImageNetDataset(csv_file='/root/wheemi/GenericObjectDecoding/data/stimulus_ImageNetTraining.tsv', root_dir='/root/wheemi/GenericObjectDecoding/code/python/images/', fmri_data=x_test, train=False, transform=train_transform)
+        train_imagenet_dataset = CustomImageNetDataset(csv_file='stimulus_ImageNetTraining.tsv', root_dir='images/', fmri_data=x_train, train=True, transform=train_transform)
+        test_imagenet_dataset = CustomImageNetDataset(csv_file='stimulus_ImageNetTraining.tsv', root_dir='images/', fmri_data=x_test, train=False, transform=train_transform)
 
         #dataset_lengths = [int(len(imagenet_dataset)*0.9), int(len(imagenet_dataset)*0.1)]
         #subsetA, subsetB = random_split(imagenet_dataset, dataset_lengths)

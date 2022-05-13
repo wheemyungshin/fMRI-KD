@@ -41,22 +41,22 @@ class config():
     self.analysis_name = 'GenericObjectDecoding'
 
     # Data settings
-    self.subjects = {#'Subject1' : ['data/Subject1.h5']}
-                'Subject2' : ['data/Subject2.h5'],
-                'Subject3' : ['data/Subject3.h5'],
-                'Subject4' : ['data/Subject4.h5'],
-                'Subject5' : ['data/Subject5.h5']}
+    self.subjects = {'Subject1' : ['data/Subject1.h5']}
+                #'Subject2' : ['data/Subject2.h5'],
+                #'Subject3' : ['data/Subject3.h5'],
+                #'Subject4' : ['data/Subject4.h5'],
+                #'Subject5' : ['data/Subject5.h5']}
 
     self.rois = {#'VC' : 'ROI_VC = 1',
             #'LVC' : 'ROI_LVC = 1',
             #'HVC' : 'ROI_HVC = 1',
-            'V1' : 'ROI_V1 = 1',
-            'V2' : 'ROI_V2 = 1',
-            'V3' : 'ROI_V3 = 1',
-            'V4' : 'ROI_V4 = 1',
-            'LOC' : 'ROI_LOC = 1',
-            'FFA' : 'ROI_FFA = 1',
-            'PPA' : 'ROI_PPA = 1'}
+            #'V1' : 'ROI_V1 = 1',
+            #'V2' : 'ROI_V2 = 1',
+            #'V3' : 'ROI_V3 = 1',
+            'V4' : 'ROI_V4 = 1'}
+            #'LOC' : 'ROI_LOC = 1',
+            #'FFA' : 'ROI_FFA = 1',
+            #'PPA' : 'ROI_PPA = 1'}
 
     self.num_voxel = {'VC' : 1000,
                 'LVC' : 1000,
@@ -80,7 +80,7 @@ class config():
     selfroi_labels = ['V1', 'V2', 'V3', 'V4', 'LOC', 'FFA', 'PPA', 'LVC', 'HVC', 'VC']
 
 
-SAVEPATH = '/root/wheemi/GenericObjectDecoding/code/python/models/'
+SAVEPATH = 'models/'
 WEIGHTDECAY = 5e-4
 MOMENTUM = 0.8
 BATCHSIZE = 64#128
@@ -1168,9 +1168,9 @@ def main(brain_teacher_target=None):
             transforms.ToTensor()
         ])
 
-        train_imagenet_dataset = CustomImageNetDataset(csv_file='/root/wheemi/GenericObjectDecoding/data/stimulus_ImageNetTraining.tsv', root_dir='/root/wheemi/GenericObjectDecoding/code/python/images/', fmri_data=x_train, train=True, transform=train_transform)
-        test_imagenet_dataset = CustomImageNetDataset(csv_file='/root/wheemi/GenericObjectDecoding/data/stimulus_ImageNetTraining.tsv', root_dir='/root/wheemi/GenericObjectDecoding/code/python/images/', fmri_data=x_test, train=False, transform=train_transform)
-
+        train_imagenet_dataset = CustomImageNetDataset(csv_file='stimulus_ImageNetTraining.tsv', root_dir='images/', fmri_data=x_train, train=True, transform=train_transform)
+        test_imagenet_dataset = CustomImageNetDataset(csv_file='stimulus_ImageNetTraining.tsv', root_dir='images/', fmri_data=x_test, train=False, transform=train_transform)
+        
         #dataset_lengths = [int(len(imagenet_dataset)*0.9), int(len(imagenet_dataset)*0.1)]
         #subsetA, subsetB = random_split(imagenet_dataset, dataset_lengths)
 
