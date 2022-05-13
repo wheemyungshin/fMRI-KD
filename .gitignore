@@ -10,9 +10,9 @@ results_*
 tmp
 lib
 bdpy
+models/
+models.zip
 images/
 images_passwd.zip
-models/
-*.pt
 soft_label.npy
 soft_labels/
