@@ -1,6 +1,6 @@
 # fMRI-KD
 
-This repository is python implementation code of fMRI-KD and depends on the repository : Generic Decoding Demo/Python (https://github.com/KamitaniLab/GenericObjectDecoding/tree/master/code/python)
+This repository is python implementation code of fMRI-KD and depends on the repository : Generic Decoding Demo/Python (https://github.com/KamitaniLab/GenericObjectDecoding/tree/master/code/python).
 
 ## Requirements
 
@@ -45,7 +45,7 @@ Download links:
 
 ## Script files
 
-- **train_teacher.py**: It trains 1-D resnet teacher using fMRI data. You should run this code first to generate teacher model. The save path is models/model1d_(subject_num)_weight_best.pt
+- **train_teacher.py**: It trains 1-D resnet teacher using fMRI data. You should run this code first to generate teacher model. The save path is models/model1d_(subject_num)_weight_best.pt. To save the models, run command "mkdir models/" before the training code.
 - **train_both.py**: It trains 2-D resnet student using distillation from 1-D resnet teacher. Corresponding image dataset is required to run this code. (Warning!!)Due to copyright issues, the dataset is not open and only available by requesting at [https://forms.gle/ujvA34948Xg49jdn9](https://docs.google.com/forms/d/e/1FAIpQLSfuAF-tr4ZUBx2LvxavAjjEkqqUOj0VpqpeJNCe-IcdlqJekg/viewform) by the authors of [GenericObjectDecoding](https://github.com/KamitaniLab/GenericObjectDecoding). If the dataset is ready, you should place them in images/.
 - **train_both_feature_distill.py**: It trains 2-D resnet student using feature distillation from 1-D resnet teacher. Corresponding image dataset is required to run this code. (Warning!!)Due to copyright issues, the dataset is not open and only available by requesting at [https://forms.gle/ujvA34948Xg49jdn9](https://docs.google.com/forms/d/e/1FAIpQLSfuAF-tr4ZUBx2LvxavAjjEkqqUOj0VpqpeJNCe-IcdlqJekg/viewform) by the authors of [GenericObjectDecoding](https://github.com/KamitaniLab/GenericObjectDecoding). If the dataset is ready, you should place them in images/.
 
